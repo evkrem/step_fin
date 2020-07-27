@@ -5,9 +5,3 @@ class MainPage(BasePage):
     def go_to_login_page(self):
         login_link = self.browser.find_element(By.CSS_SELECTOR, "#login_link")
         login_link.click()
-
-
-class MainPage(BasePage):
-    def go_to_login_page(browser):
-        login_link = browser.find_element_by_css_selector("#login_link")
-        login_link.click()
