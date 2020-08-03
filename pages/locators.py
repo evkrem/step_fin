@@ -9,3 +9,5 @@ class LoginPageLocators():
     REGISTRATION_EMAIL = (By.ID, "id_registration-email")
     REGISTRATION_PASSWORD = (By.ID, "id_registration-password1")
     REGISTRATION_PASSWORD_REPEAT = (By.ID, "id_registration-password2")
+class ProductBasketLocator():
+    ADD_BASKET = (By.CLASS_NAME, "btn-add-to-basket")
