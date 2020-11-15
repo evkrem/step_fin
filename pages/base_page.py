@@ -1,35 +1,20 @@
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.common.exceptions import NoAlertPresentException # в начале файла
 import math
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .locators import BasePageLocators
-from .locators import ProductBasketLocator
 import pytest
+
 
 class BasePage():
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
         self.url = url
-        # self.browser.implicitly_wait(timeout)
+        self.browser.implicitly_wait(timeout)
 
     def open(self):
         self.browser.get(self.url)
-
-    def solve_quiz_and_get_code(self):
-        alert = self.browser.switch_to.alert
-        x = alert.text.split(" ")[2]
-        answer = str(math.log(abs((12 * math.sin(float(x))))))
-        alert.send_keys(answer)
-        alert.accept()
-        try:
-            alert = self.browser.switch_to.alert
-            alert_text = alert.text
-            print(f"Your code: {alert_text}")
-            alert.accept()
-        except NoAlertPresentException:
-            print("No second alert presented")
 
     def is_element_present(self, how, what):
         try:
@@ -50,7 +35,22 @@ class BasePage():
             WebDriverWait(self.browser, timeout, 1, TimeoutException).until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return False
+
         return True
+
+    def solve_quiz_and_get_code(self):
+        alert = self.browser.switch_to.alert
+        x = alert.text.split(" ")[2]
+        answer = str(math.log(abs((12 * math.sin(float(x))))))
+        alert.send_keys(answer)
+        alert.accept()
+        try:
+            alert = self.browser.switch_to.alert
+            alert_text = alert.text
+            print(f"Your code: {alert_text}")
+            alert.accept()
+        except NoAlertPresentException:
+            print("No second alert presented")
 
     def go_to_login_page(self):
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
@@ -60,14 +60,7 @@ class BasePage():
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
 
     def go_to_basket(self):
-        link = self.browser.find_element(*BasePageLocators.GO_TO_BASKET)
-        link.click()
-        basket_empty = self.browser.find_element(*ProductBasketLocator.BASKET_EMPTY).text
-        check_empty_basket = "Your basket is empty"
-        assert check_empty_basket in basket_empty, "is not text 'Your basket is empty'"
-        assert self.is_not_element_present(*ProductBasketLocator.PRODUCT_IS_IN_BASKET), "basket is not empty"
+        self.browser.find_element(*BasePageLocators.BASKET_LINK).click()
 
-
-
-
-
+    def click_on_product(self):
+        self.browser.find_element(*BasePageLocators.LINK_PRODUCT).click()
