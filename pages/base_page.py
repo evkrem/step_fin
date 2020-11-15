@@ -7,6 +7,7 @@ from .locators import BasePageLocators
 import pytest
 
 
+
 class BasePage():
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
@@ -53,8 +54,7 @@ class BasePage():
             print("No second alert presented")
 
     def go_to_login_page(self):
-        link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
-        link.click()
+        link = self.browser.find_element(*BasePageLocators.LOGIN_LINK).click()
 
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
@@ -64,3 +64,6 @@ class BasePage():
 
     def click_on_product(self):
         self.browser.find_element(*BasePageLocators.LINK_PRODUCT).click()
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented, probably unauthorised user"

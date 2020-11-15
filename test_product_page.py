@@ -73,3 +73,23 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     time.sleep(2)
     basket_page.basket_empty()
 
+
+class TestUserAddToBasketFromProductPage(BasePage):
+    def test_user_cant_see_success_message_after_adding_product_to_basket(browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"
+        page = ProductPage(browser, link)
+        page.open()
+        page.add_to_basket()
+        page.solve_quiz_and_get_code()
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer1"
+        # link = f"http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{page}"
+        print(link)
+        page = ProductPage(browser, link)
+        page.open()
+        # page.should_not_be_success_message()  #проверяем, что сообщение не отображается
+        page.add_to_basket()
+        page.solve_quiz_and_get_code()
+        # time.sleep(40)
