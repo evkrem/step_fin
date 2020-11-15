@@ -10,4 +10,4 @@ class BasketPage(BasePage):
 
     # @pytest.mark.xfail
     def basket_empty(self):
-        assert self.is_element_present(*BasketLocators.PRODUCT_SUMMARY), "product in basket is not presented"
+        assert self.is_element_present(*BasketLocators.PRODUCT_SUMMARY), "product in basket is not presented!"
