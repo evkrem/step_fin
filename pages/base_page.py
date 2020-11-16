@@ -1,12 +1,8 @@
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from selenium.common.exceptions import NoAlertPresentException # в начале файла
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, NoAlertPresentException
 import math
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .locators import BasePageLocators
-import pytest
-
-
 
 class BasePage():
     def __init__(self, browser, url, timeout=10):
@@ -36,7 +32,6 @@ class BasePage():
             WebDriverWait(self.browser, timeout, 1, TimeoutException).until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return False
-
         return True
 
     def solve_quiz_and_get_code(self):

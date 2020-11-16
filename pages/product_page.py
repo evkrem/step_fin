@@ -6,7 +6,6 @@ class ProductPage(BasePage):
         self.product_name = self.browser.find_element(*ProductLocators.NAME_PRODUCT).text
         self.cost_product = self.browser.find_element(*ProductLocators.COST_PRODUCT).text
         self.browser.find_element(*ProductLocators.ADD_TO_BASKET).click()
-        # time.sleep(3)
 
     def check_add_right_product(self):
         assert self.product_name == self.browser.find_element(*ProductLocators.ADD_TO_BASKET_PRODUCT).text, "Product in basket other"
